@@ -34,3 +34,6 @@ func 공부딪힘(b :Ball) -> void:
 	position = default_pos + Vector3(randfn(0.0, 0.01), 0 , randfn(0.0, 0.01))
 	collision_count += 1
 	$Label3DCollisionCount.text = "%s" % collision_count
+
+func show_collision_count(b :bool) -> void:
+	$Label3DCollisionCount.visible = b

@@ -97,6 +97,7 @@ var key2fn = {
 	KEY_ENTER:_on_카메라변경_pressed,
 	KEY_LEFT: _on_왼쪽이동_pressed,
 	KEY_RIGHT: _on_오른쪽이동_pressed,
+	KEY_1: _on_충돌횟수보이기_pressed,
 }
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
@@ -121,3 +122,9 @@ func reset_camera_pos()->void:
 
 func _on_timer공추가_timeout() -> void:
 	add_ball()
+
+var 충돌횟수보이기 := true
+func _on_충돌횟수보이기_pressed() -> void:
+	충돌횟수보이기 = not 충돌횟수보이기
+	for n in $BarContainer.get_children():
+		n.show_collision_count(충돌횟수보이기)

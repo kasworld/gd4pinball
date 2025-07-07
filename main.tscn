@@ -39,6 +39,10 @@ layout_mode = 2
 [node name="LabelPerformance" type="Label" parent="왼쪽패널"]
 layout_mode = 2
 
+[node name="충돌횟수보이기" type="Button" parent="왼쪽패널"]
+layout_mode = 2
+text = "충돌횟수보이기"
+
 [node name="WallContainer" type="Node3D" parent="."]
 
 [node name="WallBottom" parent="WallContainer" instance=ExtResource("3_h2yge")]
@@ -70,4 +74,5 @@ autostart = true
 [node name="Arrow3D" parent="." instance=ExtResource("3_1bvp3")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
 
+[connection signal="pressed" from="왼쪽패널/충돌횟수보이기" to="." method="_on_충돌횟수보이기_pressed"]
 [connection signal="timeout" from="Timer공추가" to="." method="_on_timer공추가_timeout"]
