@@ -46,22 +46,23 @@ text = "충돌횟수보이기"
 [node name="WallContainer" type="Node3D" parent="."]
 
 [node name="WallBottom" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)
 
 [node name="WallNorth" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -10)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 10, 10, 0)
 
 [node name="WallSouth" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 10)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10, 10, 20)
 
 [node name="WallWest" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -10, 0, 0)
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 10, 10)
 
 [node name="WallEast" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 10, 0, 0)
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 20, 10, 10)
+visible = false
 
 [node name="WallTop" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 10, 0)
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 10, 20, 10)
 
 [node name="BarContainer" type="Node3D" parent="."]
 
