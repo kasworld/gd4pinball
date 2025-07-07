@@ -43,7 +43,7 @@ func add_bars() -> void:
 		lb.pixel_size = 0.01
 		lb.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 		lb.no_depth_test = true
-		lb.position = Vector3(x+0.25, -10, 10)
+		lb.position = Vector3(x+0.25, -9.5, 10)
 		$BallEndCounterContainer.add_child(lb)
 		ball_end_count.append(0)
 
@@ -69,7 +69,7 @@ func _process(delta: float) -> void:
 	update_label()
 	var t = Time.get_unix_time_from_system() /-3.0
 	if camera_move:
-		$Camera3D.position = Vector3(sin(t)*10, sin(t)*8, cos(t)*10)
+		$Camera3D.position = Vector3(sin(t)*10, sin(t)*5-2, cos(t)*10)
 		$Camera3D.look_at(Vector3(0,-10,0))
 
 func update_label() -> void:
@@ -115,8 +115,8 @@ func _on_카메라변경_pressed() -> void:
 		reset_camera_pos()
 
 func reset_camera_pos()->void:
-	$Camera3D.position = Vector3(0,5,8)
-	$Camera3D.look_at(Vector3(0,-10,0))
+	$Camera3D.position = Vector3(0,3,7)
+	$Camera3D.look_at(Vector3(0,-10,2))
 	$Camera3D.far = 50
 
 func _on_timer공추가_timeout() -> void:
