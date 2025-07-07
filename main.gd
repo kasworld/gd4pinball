@@ -24,7 +24,7 @@ var ball_end_count :Array = []
 func _ready() -> void:
 	dark_colors = NamedColorList.make_dark_color_list(0.5)
 	$Arrow3D.init(2,Color.RED,0.1,0.3)
-	$Arrow3D.position = Vector3(0, -8, -9)
+	$Arrow3D.position = Vector3(0.25, -8, -9.5)
 	reset_camera_pos()
 	for x in range(-10,11):
 		for y in range(-8,11):

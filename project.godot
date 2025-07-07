@@ -30,4 +30,4 @@ window/size/mode=3
 3d/run_on_separate_thread=true
 3d/physics_engine="Jolt Physics"
 jolt_physics_3d/limits/world_boundary_shape_size=200.0
-3d/default_gravity_vector=Vector3(0, -1, 1)
+3d/default_gravity_vector=Vector3(0, -10, 10)
