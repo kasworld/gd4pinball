@@ -25,6 +25,9 @@ func _ready() -> void:
 	dark_colors = NamedColorList.make_dark_color_list(0.5)
 	$Arrow3D.init(2,Color.RED,0.1,0.3)
 	$Arrow3D.position = Vector3(0.25, -8, -9.5)
+	add_bars()
+	
+func add_bars() -> void:
 	reset_camera_pos()
 	for x in range(-10,11):
 		for y in range(-8,11):
@@ -40,7 +43,7 @@ func _ready() -> void:
 		lb.pixel_size = 0.01
 		lb.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 		lb.no_depth_test = true
-		lb.position = Vector3(x,-10, 9.5)
+		lb.position = Vector3(x+0.25, -10, 10)
 		$BallEndCounterContainer.add_child(lb)
 		ball_end_count.append(0)
 
@@ -81,15 +84,10 @@ func update_label() -> void:
 	RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),
 	]
 
-func rand_pos_rot(n :Node3D) -> Node3D:
-	n.position = Vector3(randf_range(-9,9),-9,-9)
-	#n.position = Vector3(0, 9, 0)
-	n.rotation = Vector3(randf_range(-PI,PI),randf_range(-PI,PI),randf_range(-PI,PI))
-	return n
-
 func _on_왼쪽이동_pressed() -> void:
 	$Arrow3D.position.x -= 0.1
 	$Arrow3D.position.x = clampf($Arrow3D.position.x, -9.5, 9.5)
+
 func _on_오른쪽이동_pressed() -> void:
 	$Arrow3D.position.x += 0.1
 	$Arrow3D.position.x = clampf($Arrow3D.position.x, -9.5, 9.5)

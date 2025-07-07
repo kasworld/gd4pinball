@@ -29,5 +29,8 @@ func set_radius_height(r :float, h:float) -> Bar:
 	$CollisionShape3D.shape.height = h
 	return self
 
+var collision_count :int
 func 공부딪힘(b :Ball) -> void:
 	position = default_pos + Vector3(randfn(0.0, 0.01), 0 , randfn(0.0, 0.01))
+	collision_count += 1
+	$Label3DCollisionCount.text = "%s" % collision_count
