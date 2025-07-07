@@ -1,17 +1,17 @@
 extends StaticBody3D
-class_name Bar
+class_name Pin
 
 var default_pos :Vector3
-func set_default_pos(pos :Vector3) -> Bar:
+func set_default_pos(pos :Vector3) -> Pin:
 	default_pos = pos
 	return self
 
-func set_material(mat :Material) -> Bar:
+func set_material(mat :Material) -> Pin:
 	$막대모양.mesh.material = mat
 	$"공모양".mesh.material = mat
 	return self
 
-func set_color(co :Color) -> Bar:
+func set_color(co :Color) -> Pin:
 	$막대모양.mesh.material.albedo_color = co
 	$"공모양".mesh.material.albedo_color = co
 	return self
@@ -19,7 +19,7 @@ func set_color(co :Color) -> Bar:
 func get_color() -> Color:
 	return $막대모양.mesh.material.albedo_color
 
-func set_radius_height(r :float, h:float) -> Bar:
+func set_radius_height(r :float, h:float) -> Pin:
 	$막대모양.mesh.top_radius = r
 	$막대모양.mesh.bottom_radius = r
 	$막대모양.mesh.height = h

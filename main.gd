@@ -31,7 +31,7 @@ func add_bars() -> void:
 	reset_camera_pos()
 	for x in range(-10,11):
 		for y in range(-8,11):
-			var b = preload("res://bar.tscn").instantiate().set_color(dark_colors.pick_random()[0])
+			var b = preload("res://pin.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 			if y % 2 == 0:
 				b.position = Vector3(x-0.25, -9.5, y-0.25) + Vector3(10,10,10)
 			else :
