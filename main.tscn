@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6jywstaf8cf4"]
+[gd_scene load_steps=4 format=3 uid="uid://b6jywstaf8cf4"]
 
 [ext_resource type="Script" uid="uid://cqsla2ne6ek8c" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://c8npqlgeyy3xa" path="res://arrow3d/arrow_3d.tscn" id="3_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://dwv6qfmupuvqj" path="res://wall.tscn" id="3_h2yge"]
 
 [sub_resource type="Theme" id="Theme_h2yge"]
 default_font_size = 48
@@ -45,23 +44,6 @@ layout_mode = 2
 text = "충돌횟수보이기"
 
 [node name="WallContainer" type="Node3D" parent="."]
-
-[node name="WallBottom" parent="WallContainer" instance=ExtResource("3_h2yge")]
-
-[node name="WallNorth" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 15, 15, 0)
-
-[node name="WallSouth" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 15, 15, 30)
-
-[node name="WallWest" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 15, 15)
-
-[node name="WallEast" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 20, 15, 15)
-
-[node name="WallTop" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
 
 [node name="PinContainer" type="Node3D" parent="."]
 
