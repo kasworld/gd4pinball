@@ -47,7 +47,6 @@ text = "충돌횟수보이기"
 [node name="WallContainer" type="Node3D" parent="."]
 
 [node name="WallBottom" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 15)
 
 [node name="WallNorth" parent="WallContainer" instance=ExtResource("3_h2yge")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 15, 15, 0)
@@ -62,7 +61,7 @@ transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 15,
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 20, 15, 15)
 
 [node name="WallTop" parent="WallContainer" instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 15, 30, 15)
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
 
 [node name="BarContainer" type="Node3D" parent="."]
 
