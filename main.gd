@@ -1,6 +1,5 @@
 extends Node3D
 
-const WorldSize := Vector3(20,20,30)
 
 var tex_array = [
 	preload("res://BallTexture/ball1.tres"),	
@@ -26,33 +25,30 @@ var ball_end_count :Array = []
 func _ready() -> void:
 	dark_colors = NamedColorList.make_dark_color_list(0.5)
 	$Arrow3D.init(2,Color.RED,0.1,0.3)
-	$Arrow3D.position = Vector3(WorldSize.x/2 + 0.25, 2, 0.5)
+	$Arrow3D.position = Vector3(Config.WorldSize.x/2 + 0.25, 2, 0.5)
 	reset_camera_pos()
 	set_wall()
 	add_bars()
 
 func set_wall() -> void:
-	var bottom_size := Vector2(WorldSize.x, WorldSize.z)
-	$WallContainer/WallBottom.set_size(bottom_size)
-	$WallContainer/WallTop.set_size(bottom_size)
-	$WallContainer/WallBottom.position = Vector3(WorldSize.x/2, 0, WorldSize.z/2)
-	$WallContainer/WallTop.position = Vector3(WorldSize.x/2, WorldSize.y, WorldSize.z/2)
+	$WallContainer/WallBottom.set_size(Config.BottomSize)
+	$WallContainer/WallTop.set_size(Config.BottomSize)
+	$WallContainer/WallBottom.position = Config.BottomCenter
+	$WallContainer/WallTop.position = Config.TopCenter
 
-	var left_size := Vector2(WorldSize.y, WorldSize.z)	
-	$WallContainer/WallWest.set_size(left_size)
-	$WallContainer/WallEast.set_size(left_size)
-	$WallContainer/WallWest.position = Vector3(0, WorldSize.y/2, WorldSize.z/2)
-	$WallContainer/WallEast.position = Vector3(WorldSize.x, WorldSize.y/2, WorldSize.z/2)
+	$WallContainer/WallWest.set_size(Config.WestSize)
+	$WallContainer/WallEast.set_size(Config.WestSize)
+	$WallContainer/WallWest.position = Config.WestCenter
+	$WallContainer/WallEast.position = Config.EastCenter
 
-	var top_size := Vector2(WorldSize.x, WorldSize.y)
-	$WallContainer/WallNorth.set_size(top_size)
-	$WallContainer/WallSouth.set_size(top_size)
-	$WallContainer/WallNorth.position = Vector3(WorldSize.x/2, WorldSize.y/2, 0)
-	$WallContainer/WallSouth.position = Vector3(WorldSize.x/2, WorldSize.y/2, WorldSize.z)
+	$WallContainer/WallNorth.set_size(Config.NorthSize)
+	$WallContainer/WallSouth.set_size(Config.NorthSize)
+	$WallContainer/WallNorth.position = Config.NorthCenter
+	$WallContainer/WallSouth.position = Config.SouthCenter
 	
 func add_bars() -> void:
-	for x in range(0,WorldSize.x):
-		for y in range(5,WorldSize.z-5):
+	for x in Config.WorldSize.x:
+		for y in range(5, Config.WorldSize.z-5):
 			var b = preload("res://pin.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 			if y % 2 == 0:
 				b.position = Vector3(x+0.75, 0.5, y) 
@@ -61,20 +57,20 @@ func add_bars() -> void:
 			b.set_default_pos(b.position) 
 			$BarContainer.add_child(b)
 		
-	for x in range(0, WorldSize.x):
+	for x in Config.WorldSize.x:
 		var lb = Label3D.new()
 		lb.text = "0"
 		lb.pixel_size = 0.01
 		lb.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 		lb.no_depth_test = true
-		lb.position = Vector3(x+0.5, 0.5, WorldSize.z-1) 
+		lb.position = Vector3(x+0.5, 0.5, Config.WorldSize.z-1) 
 		$BallEndCounterContainer.add_child(lb)
 		ball_end_count.append(0)
 
-	for x in range(0,WorldSize.x+1):
+	for x in Config.WorldSize.x+1:
 		var w = preload("res://칸막이.tscn").instantiate(
 			).set_color(dark_colors.pick_random()[0])
-		w.position = Vector3(x, 0.5, WorldSize.z-1)
+		w.position = Vector3(x, 0.5, Config.WorldSize.z-1)
 		add_child(w)
 
 func add_ball() -> void:
@@ -99,8 +95,8 @@ func _process(delta: float) -> void:
 	update_label()
 	var t = Time.get_unix_time_from_system() /-3.0
 	if camera_move:
-		$Camera3D.position = Vector3(sin(t)*WorldSize.x/2+WorldSize.x/2, sin(t)*WorldSize.y/2+WorldSize.y/2, cos(t)*WorldSize.z/2+WorldSize.z/2) 
-		$Camera3D.look_at(Vector3(WorldSize.x/2, 0, WorldSize.z/2))
+		$Camera3D.position = Vector3(sin(t)*Config.WorldSize.x/2, sin(t)*Config.WorldSize.y/2, cos(t)*Config.WorldSize.z/2) + Config.WorldSize/2
+		$Camera3D.look_at(Config.BottomCenter)
 
 func update_label() -> void:
 	$"왼쪽패널/LabelDrops".text = "ball drops %s, alive %s" %[ball_droped, $DropContainer.get_child_count() ]
@@ -146,9 +142,9 @@ func _on_카메라변경_pressed() -> void:
 		reset_camera_pos()
 
 func reset_camera_pos()->void:
-	$Camera3D.position = Vector3(WorldSize.x/2, WorldSize.y, WorldSize.z * 0.8)
-	$Camera3D.look_at(Vector3(WorldSize.x/2,0,WorldSize.z*0.6))
-	$Camera3D.far = WorldSize.length()
+	$Camera3D.position = Vector3(Config.WorldSize.x/2, Config.WorldSize.y, Config.WorldSize.z * 0.8)
+	$Camera3D.look_at(Vector3(Config.WorldSize.x/2,0,Config.WorldSize.z*0.6))
+	$Camera3D.far = Config.WorldSize.length()
 
 func _on_timer공추가_timeout() -> void:
 	add_ball()
