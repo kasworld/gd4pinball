@@ -30,35 +30,30 @@ func _ready() -> void:
 	add_pins()
 
 func set_wall() -> void:
-	var w = preload("res://wall.tscn").instantiate().set_size(Config.BottomSize).set_info("바닥", 0.1)
-	w.position = Config.BottomCenter
-	$WallContainer.add_child(w)
+	$WallContainer.add_child(set_pos_rot(Config.BottomCenter, Vector3.ZERO,
+		preload("res://wall.tscn").instantiate().set_size(Config.BottomSize).set_info("바닥", 0.1)
+	))
+	$WallContainer.add_child(set_pos_rot(Config.TopCenter, Vector3(PI,0,0),
+		preload("res://wall.tscn").instantiate().set_size(Config.BottomSize).set_info("천장", 0.1)
+	))
+	$WallContainer.add_child(set_pos_rot(Config.WestCenter, Vector3(0,0,-PI/2),
+		preload("res://wall.tscn").instantiate().set_size(Config.WestSize).set_info("서쪽", 0.1)
+	))
+	$WallContainer.add_child(set_pos_rot(Config.EastCenter, Vector3(0,0,PI/2),
+		preload("res://wall.tscn").instantiate().set_size(Config.WestSize).set_info("동쪽", 0.1)
+	))
+	$WallContainer.add_child(set_pos_rot(Config.NorthCenter, Vector3(PI/2,0,0),
+		preload("res://wall.tscn").instantiate().set_size(Config.NorthSize).set_info("북쪽", 0.1)
+	))
+	$WallContainer.add_child(set_pos_rot(Config.SouthCenter, Vector3(-PI/2,0,0),
+		preload("res://wall.tscn").instantiate().set_size(Config.NorthSize).set_info("남쪽", 0.1)
+	))
 
-	w = preload("res://wall.tscn").instantiate().set_size(Config.BottomSize).set_info("천장", 0.1)
-	w.rotation = Vector3(PI,0,0)
-	w.position = Config.TopCenter
-	$WallContainer.add_child(w)
+func set_pos_rot(pos :Vector3, rot:Vector3, n: Node3D) -> Node3D:
+	n.position = pos
+	n.rotation = rot
+	return n
 
-	w = preload("res://wall.tscn").instantiate().set_size(Config.WestSize).set_info("서쪽", 0.1)
-	w.rotation = Vector3(0,0,-PI/2)
-	w.position = Config.WestCenter
-	$WallContainer.add_child(w)
-	
-	w = preload("res://wall.tscn").instantiate().set_size(Config.WestSize).set_info("동쪽", 0.1)
-	w.rotation = Vector3(0,0,PI/2)
-	w.position = Config.EastCenter
-	$WallContainer.add_child(w)
-
-	w = preload("res://wall.tscn").instantiate().set_size(Config.NorthSize).set_info("북쪽", 0.1)
-	w.rotation = Vector3(PI/2,0,0)
-	w.position = Config.NorthCenter
-	$WallContainer.add_child(w)
-
-	w = preload("res://wall.tscn").instantiate().set_size(Config.NorthSize).set_info("남쪽", 0.1)
-	w.position = Config.SouthCenter
-	w.rotation = Vector3(-PI/2,0,0)
-	$WallContainer.add_child(w)
-	
 func add_pins() -> void:
 	for x in Config.WorldSize.x:
 		for y in range(3, Config.WorldSize.z-2):
