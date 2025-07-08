@@ -15,3 +15,8 @@ func get_color() -> Color:
 func set_size(sz :Vector2) -> Wall:
 	$MeshInstance3D.mesh.size = sz
 	return self
+
+func set_info(s :String, pixel_size :float) -> Wall:
+	$Label3D.text = s
+	$Label3D.pixel_size = pixel_size
+	return self

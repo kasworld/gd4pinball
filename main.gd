@@ -34,16 +34,22 @@ func set_wall() -> void:
 	$WallContainer/WallTop.set_size(Config.BottomSize)
 	$WallContainer/WallBottom.position = Config.BottomCenter
 	$WallContainer/WallTop.position = Config.TopCenter
+	$WallContainer/WallBottom.set_info("바닥", 0.1)
+	$WallContainer/WallTop.set_info("천장", 0.1)
 
 	$WallContainer/WallWest.set_size(Config.WestSize)
 	$WallContainer/WallEast.set_size(Config.WestSize)
 	$WallContainer/WallWest.position = Config.WestCenter
 	$WallContainer/WallEast.position = Config.EastCenter
+	$WallContainer/WallWest.set_info("서쪽", 0.1)
+	$WallContainer/WallEast.set_info("동쪽", 0.1)
 
 	$WallContainer/WallNorth.set_size(Config.NorthSize)
 	$WallContainer/WallSouth.set_size(Config.NorthSize)
 	$WallContainer/WallNorth.position = Config.NorthCenter
 	$WallContainer/WallSouth.position = Config.SouthCenter
+	$WallContainer/WallNorth.set_info("북쪽", 0.1)
+	$WallContainer/WallSouth.set_info("남쪽", 0.1)
 	
 func add_pins() -> void:
 	for x in Config.WorldSize.x:
