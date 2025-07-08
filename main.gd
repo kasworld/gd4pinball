@@ -41,12 +41,12 @@ func add_pins() -> void:
 	for x in Config.WorldSize.x:
 		for y in range(3, Config.WorldSize.z-2):
 			var b = preload("res://pin.tscn").instantiate(
-				).set_radius_height(Config.BallRadius/6, Config.BallRadius*3
+				).set_radius_height(Config.BallRadius/6, Config.WorldSize.y
 				).set_color(dark_colors.pick_random()[0])
 			if y % 2 == 0:
-				b.position = Vector3(x+0.75, 0.5, y) 
+				b.position = Vector3(x+0.75, Config.WorldSize.y/2, y) 
 			else :
-				b.position = Vector3(x+0.25, 0.5, y) 
+				b.position = Vector3(x+0.25, Config.WorldSize.y/2, y) 
 			b.set_default_pos(b.position) 
 			$PinContainer.add_child(b)
 		
@@ -56,15 +56,15 @@ func add_pins() -> void:
 		lb.pixel_size = 0.01
 		lb.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 		lb.no_depth_test = true
-		lb.position = Vector3(x+0.5, 0.5, Config.WorldSize.z-1) 
+		lb.position = Vector3(x+0.5, Config.WorldSize.y/2, Config.WorldSize.z-1) 
 		$BallEndCounterContainer.add_child(lb)
 		ball_end_count.append(0)
 
 	for x in Config.WorldSize.x+1:
 		var w = preload("res://칸막이.tscn").instantiate(
-			).set_size( Vector3(Config.BallRadius/6, Config.BallRadius*3, 2)
+			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, 2)
 			).set_color(dark_colors.pick_random()[0])
-		w.position = Vector3(x, 0.5, Config.WorldSize.z-1)
+		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z-1)
 		add_child(w)
 
 func add_ball() -> void:
