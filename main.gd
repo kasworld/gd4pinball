@@ -9,10 +9,10 @@ func _ready() -> void:
 	$Arrow3D.init(Config.BallRadius*6,Color.RED,Config.BallRadius/3,Config.BallRadius)
 	$Arrow3D.position = Vector3(Config.WorldSize.x/2 + 0.25, Config.BallRadius*5, Config.BallRadius*1)
 	reset_camera_pos()
-	set_wall()
+	set_walls()
 	add_pins()
 
-func set_wall() -> void:
+func set_walls() -> void:
 	$WallContainer.add_child(set_pos_rot(Config.BottomCenter, Vector3.ZERO,
 		preload("res://wall.tscn").instantiate().set_size(Config.BottomSize).set_info("바닥", 0.1)
 	))
@@ -89,7 +89,7 @@ func _process(delta: float) -> void:
 	update_label()
 	var t = Time.get_unix_time_from_system() /-3.0
 	if camera_move:
-		$Camera3D.position = Vector3(sin(t)*Config.WorldSize.x/2, sin(t)*Config.WorldSize.y/2, cos(t)*Config.WorldSize.z/2) + Config.WorldSize/2
+		$Camera3D.position = Vector3(sin(t)*Config.WorldSize.x/2, sin(t)*Config.WorldSize.length()/3, cos(t)*Config.WorldSize.z/2) + Config.WorldSize/2
 		#$Camera3D.look_at(Config.WorldSize/2)
 		$Camera3D.look_at(Config.BottomCenter)
 
@@ -142,7 +142,7 @@ func _on_카메라변경_pressed() -> void:
 		reset_camera_pos()
 
 func reset_camera_pos()->void:
-	$Camera3D.position = Vector3(Config.WorldSize.x/2, Config.WorldSize.y, Config.WorldSize.z * 0.8)
+	$Camera3D.position = Vector3(Config.WorldSize.x/2, Config.WorldSize.length()/2, Config.WorldSize.z * 0.8)
 	$Camera3D.look_at(Vector3(Config.WorldSize.x/2,0,Config.WorldSize.z*0.6))
 	$Camera3D.far = Config.WorldSize.length()
 
