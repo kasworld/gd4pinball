@@ -1,6 +1,5 @@
 extends Node3D
 
-
 var tex_array = [
 	preload("res://BallTexture/ball1.tres"),	
 	preload("res://BallTexture/ball2.tres"),	
@@ -48,7 +47,7 @@ func set_wall() -> void:
 	
 func add_bars() -> void:
 	for x in Config.WorldSize.x:
-		for y in range(5, Config.WorldSize.z-5):
+		for y in range(2, Config.WorldSize.z-2):
 			var b = preload("res://pin.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 			if y % 2 == 0:
 				b.position = Vector3(x+0.75, 0.5, y) 

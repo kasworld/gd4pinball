@@ -1,6 +1,6 @@
 extends Node
 
-const WorldSize := Vector3(20,20,30)
+const WorldSize := Vector3(40,20,30)
 
 const BottomSize := Vector2(WorldSize.x, WorldSize.z)
 const BottomCenter := Vector3(WorldSize.x/2, 0, WorldSize.z/2)
