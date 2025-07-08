@@ -26,24 +26,38 @@ func _ready() -> void:
 	$Arrow3D.init(2,Color.RED,0.1,0.3)
 	$Arrow3D.position = Vector3(10, 2, 0.5)
 	add_bars()
+	#$WallContainer/WallBottom.set_size(Vector2(20,30))
+	#$WallContainer/WallBottom.position = Vector3(10,0,15)
+	#$WallContainer/WallTop.set_size(Vector2(20,30))
+	#$WallContainer/WallTop.position = Vector3(10,10,10)
+	#$WallContainer/WallWest.set_size(Vector2(10,30))
+	#$WallContainer/WallEast.set_size(Vector2(10,30))
+	#$WallContainer/WallNorth.set_size(Vector2(10,20))
+	#$WallContainer/WallSouth.set_size(Vector2(10,20))
 	
 func add_bars() -> void:
 	reset_camera_pos()
-	for x in range(-10,11):
-		for y in range(-8,11):
+	for x in range(0,20):
+		for y in range(5,25):
 			var b = preload("res://pin.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 			if y % 2 == 0:
-				b.position = Vector3(x-0.25, -9.5, y-0.25) + Vector3(10,10,10)
+				b.position = Vector3(x-0.25, 0.5, y-0.25) 
 			else :
-				b.position = Vector3(x+0.25, -9.5, y-0.25) + Vector3(10,10,10)
+				b.position = Vector3(x+0.25, 0.5, y-0.25) 
 			b.set_default_pos(b.position) 
 			$BarContainer.add_child(b)
+		
+		var w = preload("res://칸막이.tscn").instantiate(
+			).set_color(dark_colors.pick_random()[0])
+		w.position = Vector3(x,0.5,28)
+		add_child(w)
+		
 		var lb = Label3D.new()
 		lb.text = "0"
 		lb.pixel_size = 0.01
 		lb.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 		lb.no_depth_test = true
-		lb.position = Vector3(x+0.25, -9.5, 10) + Vector3(10,10,10)
+		lb.position = Vector3(x+0.25, 0.5, 29) 
 		$BallEndCounterContainer.add_child(lb)
 		ball_end_count.append(0)
 
@@ -69,8 +83,8 @@ func _process(delta: float) -> void:
 	update_label()
 	var t = Time.get_unix_time_from_system() /-3.0
 	if camera_move:
-		$Camera3D.position = Vector3(sin(t)*10, sin(t)*5-2, cos(t)*10) + Vector3(10,10,10)
-		$Camera3D.look_at(Vector3(0,-10,0))
+		$Camera3D.position = Vector3(sin(t)*10+5, sin(t)*5+7, cos(t)*15+7.5) 
+		$Camera3D.look_at(Vector3(10,0,15))
 
 func update_label() -> void:
 	$"왼쪽패널/LabelDrops".text = "ball drops %s, alive %s" %[ball_droped, $DropContainer.get_child_count() ]
@@ -86,11 +100,11 @@ func update_label() -> void:
 
 func _on_왼쪽이동_pressed() -> void:
 	$Arrow3D.position.x -= 0.1
-	$Arrow3D.position.x = clampf($Arrow3D.position.x, -9.5, 9.5)
+	$Arrow3D.position.x = clampf($Arrow3D.position.x, 0, 20)
 
 func _on_오른쪽이동_pressed() -> void:
 	$Arrow3D.position.x += 0.1
-	$Arrow3D.position.x = clampf($Arrow3D.position.x, -9.5, 9.5)
+	$Arrow3D.position.x = clampf($Arrow3D.position.x, 0, 20)
 
 var key2fn = {
 	KEY_ESCAPE:_on_button_esc_pressed,
@@ -116,9 +130,9 @@ func _on_카메라변경_pressed() -> void:
 		reset_camera_pos()
 
 func reset_camera_pos()->void:
-	$Camera3D.position = Vector3(10,13,17)
-	$Camera3D.look_at(Vector3(10,0,12))
-	$Camera3D.far = 50
+	$Camera3D.position = Vector3(10,20,25)
+	$Camera3D.look_at(Vector3(10,0,17))
+	$Camera3D.far = 60
 
 func _on_timer공추가_timeout() -> void:
 	add_ball()

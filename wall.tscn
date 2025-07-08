@@ -11,7 +11,7 @@ normal_enabled = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_0xm2m"]
 material = SubResource("StandardMaterial3D_xxgf6")
-size = Vector2(20, 20)
+size = Vector2(30, 30)
 
 [node name="Wall" type="StaticBody3D"]
 physics_material_override = SubResource("PhysicsMaterial_0xm2m")

@@ -26,7 +26,7 @@ func set_radius(r :float) -> Ball:
 	return self
 	
 func _on_body_entered(body: Node) -> void:
-	if body is Wall and position.z >= 9.0:
+	if body is Wall and position.z >= 29.0:
 		queue_free()
 		ball_ended.emit(position)
 	elif body is Pin:
