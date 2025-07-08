@@ -8,7 +8,7 @@ friction = 0.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nkspu"]
 resource_local_to_scene = true
-size = Vector3(0.1, 4, 5)
+size = Vector3(0.05, 4, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_27wne"]
 resource_local_to_scene = true
@@ -16,7 +16,7 @@ resource_local_to_scene = true
 [sub_resource type="BoxMesh" id="BoxMesh_6snif"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_27wne")
-size = Vector3(0.1, 1, 5)
+size = Vector3(0.05, 1, 2)
 
 [node name="칸막이" type="StaticBody3D"]
 physics_material_override = SubResource("PhysicsMaterial_nkspu")

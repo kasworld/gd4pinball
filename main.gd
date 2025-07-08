@@ -24,7 +24,8 @@ var ball_end_count :Array = []
 func _ready() -> void:
 	dark_colors = NamedColorList.make_dark_color_list(0.5)
 	$Arrow3D.init(2,Color.RED,0.1,0.3)
-	$Arrow3D.position = Vector3(10, 2, 0.5)
+	$Arrow3D.position = Vector3(10.25, 2, 0.5)
+	reset_camera_pos()
 	add_bars()
 	#$WallContainer/WallBottom.set_size(Vector2(20,30))
 	#$WallContainer/WallBottom.position = Vector3(10,0,15)
@@ -36,7 +37,6 @@ func _ready() -> void:
 	#$WallContainer/WallSouth.set_size(Vector2(10,20))
 	
 func add_bars() -> void:
-	reset_camera_pos()
 	for x in range(0,20):
 		for y in range(5,25):
 			var b = preload("res://pin.tscn").instantiate().set_color(dark_colors.pick_random()[0])
@@ -47,11 +47,7 @@ func add_bars() -> void:
 			b.set_default_pos(b.position) 
 			$BarContainer.add_child(b)
 		
-		var w = preload("res://칸막이.tscn").instantiate(
-			).set_color(dark_colors.pick_random()[0])
-		w.position = Vector3(x,0.5,28)
-		add_child(w)
-		
+	for x in range(0,20):
 		var lb = Label3D.new()
 		lb.text = "0"
 		lb.pixel_size = 0.01
@@ -60,6 +56,12 @@ func add_bars() -> void:
 		lb.position = Vector3(x+0.5, 0.5, 29) 
 		$BallEndCounterContainer.add_child(lb)
 		ball_end_count.append(0)
+
+	for x in range(0,21):
+		var w = preload("res://칸막이.tscn").instantiate(
+			).set_color(dark_colors.pick_random()[0])
+		w.position = Vector3(x,0.5,29)
+		add_child(w)
 
 func add_ball() -> void:
 	var d = 	preload("res://ball.tscn").instantiate(
