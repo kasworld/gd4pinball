@@ -26,7 +26,7 @@ func set_radius(r :float) -> Ball:
 	return self
 	
 func _on_body_entered(body: Node) -> void:
-	if body is Wall and position.z >= Config.WorldSize.z -1:
+	if body is Wall and position.z >= Config.WorldSize.z -$CollisionShape3D.shape.radius*2:
 		queue_free()
 		ball_ended.emit(position)
 	elif body is Pin:

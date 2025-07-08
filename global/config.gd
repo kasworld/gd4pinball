@@ -13,3 +13,5 @@ const EastCenter := Vector3(WorldSize.x, WorldSize.y/2, WorldSize.z/2)
 const NorthSize := Vector2(WorldSize.x, WorldSize.y)
 const NorthCenter := Vector3(WorldSize.x/2, WorldSize.y/2, 0)
 const SouthCenter := Vector3(WorldSize.x/2, WorldSize.y/2, WorldSize.z)
+
+const BallRadius := 0.3

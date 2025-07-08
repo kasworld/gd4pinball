@@ -23,8 +23,8 @@ var ball_end_count :Array = []
 
 func _ready() -> void:
 	dark_colors = NamedColorList.make_dark_color_list(0.5)
-	$Arrow3D.init(2,Color.RED,0.1,0.3)
-	$Arrow3D.position = Vector3(Config.WorldSize.x/2 + 0.25, 2, 0.5)
+	$Arrow3D.init(Config.BallRadius*6,Color.RED,Config.BallRadius/3,Config.BallRadius)
+	$Arrow3D.position = Vector3(Config.WorldSize.x/2 + 0.25, Config.BallRadius*5, Config.BallRadius*1)
 	reset_camera_pos()
 	set_wall()
 	add_bars()
@@ -47,7 +47,7 @@ func set_wall() -> void:
 	
 func add_bars() -> void:
 	for x in Config.WorldSize.x:
-		for y in range(2, Config.WorldSize.z-2):
+		for y in range(3, Config.WorldSize.z-2):
 			var b = preload("res://pin.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 			if y % 2 == 0:
 				b.position = Vector3(x+0.75, 0.5, y) 
@@ -77,9 +77,9 @@ func add_ball() -> void:
 		).init(Vector3.ZERO, Vector3.ZERO
 		).set_material(tex_array.pick_random()
 		#).set_color(dark_colors.pick_random()[0]
-		).set_radius(0.3
+		).set_radius(Config.BallRadius
 	)
-	d.position = $Arrow3D.position + Vector3(0,-1.5,0)
+	d.position = $Arrow3D.position + Vector3(0,-Config.BallRadius*4,0)
 	$DropContainer.add_child(d)
 	ball_droped += 1
 	d.ball_ended.connect(ball_ended)
@@ -111,11 +111,11 @@ func update_label() -> void:
 
 func _on_왼쪽이동_pressed() -> void:
 	$Arrow3D.position.x -= 0.1
-	$Arrow3D.position.x = clampf($Arrow3D.position.x, 0, 20)
+	$Arrow3D.position.x = clampf($Arrow3D.position.x, Config.BallRadius, Config.WorldSize.x-Config.BallRadius)
 
 func _on_오른쪽이동_pressed() -> void:
 	$Arrow3D.position.x += 0.1
-	$Arrow3D.position.x = clampf($Arrow3D.position.x, 0, 20)
+	$Arrow3D.position.x = clampf($Arrow3D.position.x, Config.BallRadius, Config.WorldSize.x-Config.BallRadius)
 
 var key2fn = {
 	KEY_ESCAPE:_on_button_esc_pressed,
