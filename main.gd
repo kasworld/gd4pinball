@@ -41,9 +41,9 @@ func add_bars() -> void:
 		for y in range(5,25):
 			var b = preload("res://pin.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 			if y % 2 == 0:
-				b.position = Vector3(x-0.25, 0.5, y-0.25) 
+				b.position = Vector3(x+0.75, 0.5, y) 
 			else :
-				b.position = Vector3(x+0.25, 0.5, y-0.25) 
+				b.position = Vector3(x+0.25, 0.5, y) 
 			b.set_default_pos(b.position) 
 			$BarContainer.add_child(b)
 		
@@ -57,7 +57,7 @@ func add_bars() -> void:
 		lb.pixel_size = 0.01
 		lb.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 		lb.no_depth_test = true
-		lb.position = Vector3(x+0.25, 0.5, 29) 
+		lb.position = Vector3(x+0.5, 0.5, 29) 
 		$BallEndCounterContainer.add_child(lb)
 		ball_end_count.append(0)
 
