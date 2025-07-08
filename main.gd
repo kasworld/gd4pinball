@@ -89,8 +89,7 @@ func _process(delta: float) -> void:
 	update_label()
 	var t = Time.get_unix_time_from_system() /-3.0
 	if camera_move:
-		$Camera3D.position = Vector3(sin(t)*Config.WorldSize.x/2, sin(t)*Config.WorldSize.length()/3, cos(t)*Config.WorldSize.z/2) + Config.WorldSize/2
-		#$Camera3D.look_at(Config.WorldSize/2)
+		$Camera3D.position = Vector3(sin(t)*Config.WorldSize.x/2, sin(t)*Config.BottomSize.length()/3, cos(t)*Config.WorldSize.z/2) + Config.WorldSize/2
 		$Camera3D.look_at(Config.BottomCenter)
 
 func update_label() -> void:
@@ -142,7 +141,7 @@ func _on_카메라변경_pressed() -> void:
 		reset_camera_pos()
 
 func reset_camera_pos()->void:
-	$Camera3D.position = Vector3(Config.WorldSize.x/2, Config.WorldSize.length()/2, Config.WorldSize.z * 0.8)
+	$Camera3D.position = Vector3(Config.WorldSize.x/2, Config.BottomSize.length()*0.4, Config.WorldSize.z * 0.8)
 	$Camera3D.look_at(Vector3(Config.WorldSize.x/2,0,Config.WorldSize.z*0.6))
 	$Camera3D.far = Config.WorldSize.length()
 
