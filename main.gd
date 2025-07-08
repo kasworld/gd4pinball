@@ -1,22 +1,5 @@
 extends Node3D
 
-var tex_array = [
-	preload("res://BallTexture/ball1.tres"),	
-	preload("res://BallTexture/ball2.tres"),	
-	preload("res://BallTexture/ball3.tres"),	
-	preload("res://BallTexture/ball4.tres"),	
-	preload("res://BallTexture/ball5.tres"),	
-	preload("res://BallTexture/ball6.tres"),	
-	preload("res://BallTexture/ball7.tres"),	
-	preload("res://BallTexture/ball8.tres"),	
-	preload("res://BallTexture/ball9.tres"),	
-	preload("res://BallTexture/ball10.tres"),	
-	preload("res://BallTexture/ball11.tres"),	
-	preload("res://BallTexture/ball12.tres"),	
-	preload("res://BallTexture/ball13.tres"),	
-	preload("res://BallTexture/ball14.tres"),	
-	preload("res://BallTexture/ball15.tres"),	
-]
 var ball_droped :int
 var dark_colors :Array
 var ball_end_count :Array = []
@@ -87,7 +70,7 @@ func add_pins() -> void:
 func add_ball() -> void:
 	var d = 	preload("res://ball.tscn").instantiate(
 		).init(Vector3.ZERO, Vector3.ZERO
-		).set_material(tex_array.pick_random()
+		).set_material(Config.tex_array.pick_random()
 		#).set_color(dark_colors.pick_random()[0]
 		).set_radius(Config.BallRadius
 	)
@@ -121,7 +104,11 @@ func update_label() -> void:
 	RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME) * 0.001,
 	RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),
 	]
-	$"왼쪽패널/Label".text = "공 생성속도 %s 초" % $"왼쪽패널/Label/생성속도".value
+	$"왼쪽패널/Label".text = "공 만들기 %s 초당 1개" % $"왼쪽패널/Label/생성속도".value
+	if 충돌횟수보이기:
+		$"왼쪽패널/충돌횟수보이기".text = "충돌횟수숨기기"
+	else :
+		$"왼쪽패널/충돌횟수보이기".text = "충돌횟수보이기"
 
 func _on_왼쪽이동_pressed() -> void:
 	$Arrow3D.position.x -= 0.1
