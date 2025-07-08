@@ -27,7 +27,7 @@ func _ready() -> void:
 	$Arrow3D.position = Vector3(Config.WorldSize.x/2 + 0.25, Config.BallRadius*5, Config.BallRadius*1)
 	reset_camera_pos()
 	set_wall()
-	add_bars()
+	add_pins()
 
 func set_wall() -> void:
 	$WallContainer/WallBottom.set_size(Config.BottomSize)
@@ -45,16 +45,18 @@ func set_wall() -> void:
 	$WallContainer/WallNorth.position = Config.NorthCenter
 	$WallContainer/WallSouth.position = Config.SouthCenter
 	
-func add_bars() -> void:
+func add_pins() -> void:
 	for x in Config.WorldSize.x:
 		for y in range(3, Config.WorldSize.z-2):
-			var b = preload("res://pin.tscn").instantiate().set_color(dark_colors.pick_random()[0])
+			var b = preload("res://pin.tscn").instantiate(
+				).set_radius_height(Config.BallRadius/6, Config.BallRadius*3
+				).set_color(dark_colors.pick_random()[0])
 			if y % 2 == 0:
 				b.position = Vector3(x+0.75, 0.5, y) 
 			else :
 				b.position = Vector3(x+0.25, 0.5, y) 
 			b.set_default_pos(b.position) 
-			$BarContainer.add_child(b)
+			$PinContainer.add_child(b)
 		
 	for x in Config.WorldSize.x:
 		var lb = Label3D.new()
@@ -68,6 +70,7 @@ func add_bars() -> void:
 
 	for x in Config.WorldSize.x+1:
 		var w = preload("res://칸막이.tscn").instantiate(
+			).set_size( Vector3(Config.BallRadius/6, Config.BallRadius*3, 2)
 			).set_color(dark_colors.pick_random()[0])
 		w.position = Vector3(x, 0.5, Config.WorldSize.z-1)
 		add_child(w)
@@ -151,5 +154,5 @@ func _on_timer공추가_timeout() -> void:
 var 충돌횟수보이기 := true
 func _on_충돌횟수보이기_pressed() -> void:
 	충돌횟수보이기 = not 충돌횟수보이기
-	for n in $BarContainer.get_children():
+	for n in $PinContainer.get_children():
 		n.show_collision_count(충돌횟수보이기)

@@ -23,8 +23,9 @@ func set_radius_height(r :float, h:float) -> Pin:
 	$막대모양.mesh.top_radius = r
 	$막대모양.mesh.bottom_radius = r
 	$막대모양.mesh.height = h
-	$"공모양".mesh.radius = r *1.1
-	$공모양.mesh.height = h*2
+	$공모양.mesh.radius = r *1.5
+	$공모양.mesh.height = $공모양.mesh.radius*2
+	$공모양.position.y = h/2
 	$CollisionShape3D.shape.radius = r
 	$CollisionShape3D.shape.height = h
 	return self
