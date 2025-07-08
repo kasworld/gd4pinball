@@ -121,6 +121,7 @@ func update_label() -> void:
 	RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME) * 0.001,
 	RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),
 	]
+	$"왼쪽패널/Label".text = "공 생성속도 %s 초" % $"왼쪽패널/Label/생성속도".value
 
 func _on_왼쪽이동_pressed() -> void:
 	$Arrow3D.position.x -= 0.1
@@ -166,3 +167,6 @@ func _on_충돌횟수보이기_pressed() -> void:
 	충돌횟수보이기 = not 충돌횟수보이기
 	for n in $PinContainer.get_children():
 		n.show_collision_count(충돌횟수보이기)
+
+func _on_생성속도_value_changed(value: float) -> void:
+	$"Timer공추가".wait_time = value
