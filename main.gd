@@ -39,14 +39,14 @@ func set_pos_rot(pos :Vector3, rot:Vector3, n: Node3D) -> Node3D:
 
 func add_pins() -> void:
 	for x in Config.WorldSize.x:
-		for y in range(3, Config.WorldSize.z-2):
+		for y in int(Config.WorldSize.z):
 			var b = preload("res://pin.tscn").instantiate(
 				).set_radius_height(Config.BallRadius/6, Config.WorldSize.y
 				).set_color(dark_colors.pick_random()[0])
 			if y % 2 == 0:
-				b.position = Vector3(x+0.75, Config.WorldSize.y/2, y) 
+				b.position = Vector3(x+0.75, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
 			else :
-				b.position = Vector3(x+0.25, Config.WorldSize.y/2, y) 
+				b.position = Vector3(x+0.25, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
 			b.set_default_pos(b.position) 
 			$PinContainer.add_child(b)
 		
