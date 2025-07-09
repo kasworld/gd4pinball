@@ -6,9 +6,9 @@ var ball_end_count :Array = []
 
 func _ready() -> void:
 	dark_colors = NamedColorList.make_dark_color_list(0.5)
-	$Arrow3DDrop.init(Config.BallRadius*6,Color.RED,Config.BallRadius/3,Config.BallRadius)
+	$Arrow3DDrop.set_color(Color.RED).set_size(Config.BallRadius*6,Config.BallRadius/3,Config.BallRadius)
 	$Arrow3DDrop.position = Vector3(Config.WorldSize.x/2 + 0.25, Config.BallRadius*5, Config.BallRadius*1)
-	$Arrow3DShootLeft.init(Config.BallRadius*6,Color.RED,Config.BallRadius/3,Config.BallRadius)
+	$Arrow3DShootLeft.set_color(Color.RED).set_size(Config.BallRadius*6,Config.BallRadius/3,Config.BallRadius)
 	$Arrow3DShootLeft.position = Vector3(0.5, Config.WorldSize.y/2, Config.WorldSize.z - Config.BallRadius*3)
 	
 	reset_camera_pos()
