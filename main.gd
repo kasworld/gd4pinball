@@ -12,6 +12,7 @@ func _ready() -> void:
 	set_walls()
 	add_칸들()
 	add_pins_bintree()
+	#draw_pin_circle(Config.WorldSize/2, Config.WorldSize.length()/8, 50)
 
 func set_walls() -> void:
 	$WallContainer.add_child(set_pos_rot(Config.BottomCenter, Vector3.ZERO,
@@ -75,6 +76,16 @@ func draw_pin_line(p1 :Vector3, p2 :Vector3, pin_count :int) -> void:
 			).set_radius_height(Config.BallRadius/6, Config.WorldSize.y
 			).set_color(dark_colors.pick_random()[0])
 		b.position = lerp(p1,p2,rate)
+		b.set_default_pos(b.position) 
+		$PinContainer.add_child(b)
+
+func draw_pin_circle(center :Vector3, radius :float, pin_count :int) -> void:
+	for i in pin_count:
+		var rate := float(i)/float(pin_count-1) * 2 * PI
+		var b = preload("res://pin.tscn").instantiate(
+			).set_radius_height(Config.BallRadius/6, Config.WorldSize.y
+			).set_color(dark_colors.pick_random()[0])
+		b.position = Vector3( sin(rate)*radius, 0, cos(rate)*radius ) + center
 		b.set_default_pos(b.position) 
 		$PinContainer.add_child(b)
 
