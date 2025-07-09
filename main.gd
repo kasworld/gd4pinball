@@ -10,6 +10,8 @@ func _ready() -> void:
 	$Arrow3DDrop.position = Vector3(Config.WorldSize.x/2 + 0.25, Config.BallRadius*5, Config.BallRadius*1)
 	$Arrow3DShootLeft.set_color(Color.RED).set_size(Config.BallRadius*6,Config.BallRadius/3,Config.BallRadius)
 	$Arrow3DShootLeft.position = Vector3(0.5, Config.WorldSize.y/2, Config.WorldSize.z - Config.BallRadius*3)
+	$Arrow3DShootRight.set_color(Color.RED).set_size(Config.BallRadius*6,Config.BallRadius/3,Config.BallRadius)
+	$Arrow3DShootRight.position = Vector3(Config.WorldSize.x- 0.5, Config.WorldSize.y/2, Config.WorldSize.z - Config.BallRadius*3)
 	
 	reset_camera_pos()
 	set_walls()
@@ -75,13 +77,23 @@ func add_pins_bintree_narrow() -> void:
 			).set_color(dark_colors.pick_random()[0])
 		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z/2+3)
 		add_child(w)
+
+	var rad = -PI/6
+	var l = 4
 	var w = preload("res://칸막이.tscn").instantiate(
-		).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, 4)
+		).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, l)
 		).set_color(dark_colors.pick_random()[0])
-	w.position = Vector3(1, Config.WorldSize.y/2, 1)
-	w.rotate_y(-PI/6)
+	w.rotate_y(rad)
+	w.position = Vector3(-sin(rad)*l/2, Config.WorldSize.y/2, cos(rad)*l/2)
 	w.physics_material_override.bounce = 1.0
-	#w.physics_material_override.friction = 0.5
+	add_child(w)
+
+	w = preload("res://칸막이.tscn").instantiate(
+		).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, l)
+		).set_color(dark_colors.pick_random()[0])
+	w.rotate_y(-rad)
+	w.position = Vector3(Config.WorldSize.x+sin(rad)*l/2, Config.WorldSize.y/2, cos(rad)*l/2)
+	w.physics_material_override.bounce = 1.0
 	add_child(w)
 
 func new_label3d() -> Label3D:
@@ -152,17 +164,17 @@ func ball_ended(pos :Vector3) -> void:
 	ball_end_count[i] += 1
 	$BallEndCounterContainer.get_child(i).text = "%s" % ball_end_count[i]
 
-func shoot_ball() -> void:
+func shoot_ball(pos :Vector3) -> void:
 	var d = 	preload("res://ball.tscn").instantiate(
 		).set_material(Config.tex_array.pick_random()
 		).set_radius(Config.BallRadius
 	)
-	d.set_velocity(Vector3(0,0,-100))
+	d.set_velocity(Vector3(0,0,-70))
 	#d.set_a_velocity(Vector3(-50,0,0))
 	$DropContainer.add_child(d)
 	ball_droped += 1
 	d.ball_ended.connect(ball_ended)
-	d.position = $Arrow3DShootLeft.position + Vector3(0,0,-Config.BallRadius*4)
+	d.position = pos + Vector3(0,0,-Config.BallRadius*4)
 
 var camera_move = false
 func _process(delta: float) -> void:
@@ -225,9 +237,16 @@ func reset_camera_pos()->void:
 	$Camera3D.look_at(Vector3(Config.WorldSize.x/2,0,Config.WorldSize.z*0.6))
 	$Camera3D.far = Config.WorldSize.length()
 
+var b_step:int
 func _on_timer공추가_timeout() -> void:
-	#drop_ball()
-	shoot_ball()
+	b_step +=1
+	match b_step %3:
+		0:
+			drop_ball()
+		1:
+			shoot_ball($Arrow3DShootLeft.position)
+		2:
+			shoot_ball($Arrow3DShootRight.position)
 
 var 충돌횟수보이기 := true
 func _on_충돌횟수보이기_pressed() -> void:
