@@ -75,6 +75,14 @@ func add_pins_bintree_narrow() -> void:
 			).set_color(dark_colors.pick_random()[0])
 		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z/2+3)
 		add_child(w)
+	var w = preload("res://칸막이.tscn").instantiate(
+		).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, 4)
+		).set_color(dark_colors.pick_random()[0])
+	w.position = Vector3(1, Config.WorldSize.y/2, 1)
+	w.rotate_y(-PI/6)
+	w.physics_material_override.bounce = 1.0
+	#w.physics_material_override.friction = 0.5
+	add_child(w)
 
 func new_label3d() -> Label3D:
 	var lb = Label3D.new()
@@ -129,7 +137,7 @@ func set_pos_rot(pos :Vector3, rot:Vector3, n: Node3D) -> Node3D:
 	n.rotation = rot
 	return n
 
-func add_ball() -> void:
+func drop_ball() -> void:
 	var d = 	preload("res://ball.tscn").instantiate(
 		).set_material(Config.tex_array.pick_random()
 		).set_radius(Config.BallRadius
@@ -149,11 +157,12 @@ func shoot_ball() -> void:
 		).set_material(Config.tex_array.pick_random()
 		).set_radius(Config.BallRadius
 	)
-	d.set_velocity(Vector3(0,0,-10))
+	d.set_velocity(Vector3(0,0,-100))
+	#d.set_a_velocity(Vector3(-50,0,0))
 	$DropContainer.add_child(d)
 	ball_droped += 1
 	d.ball_ended.connect(ball_ended)
-	d.position = $Arrow3DDrop.position + Vector3(0,-Config.BallRadius*4,0)
+	d.position = $Arrow3DShootLeft.position + Vector3(0,0,-Config.BallRadius*4)
 
 var camera_move = false
 func _process(delta: float) -> void:
@@ -217,7 +226,8 @@ func reset_camera_pos()->void:
 	$Camera3D.far = Config.WorldSize.length()
 
 func _on_timer공추가_timeout() -> void:
-	add_ball()
+	#drop_ball()
+	shoot_ball()
 
 var 충돌횟수보이기 := true
 func _on_충돌횟수보이기_pressed() -> void:
