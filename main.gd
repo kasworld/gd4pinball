@@ -67,6 +67,8 @@ func add_pins_bintree() -> void:
 		else :
 			p1 = Vector3(0.25, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
 			p2 = Vector3(Config.WorldSize.x - 0.75, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
+		if p1.z >= Config.WorldSize.z -3:
+			break
 		draw_pin_line(p1,p2,Config.WorldSize.x-1)
 
 func draw_pin_line(p1 :Vector3, p2 :Vector3, pin_count :int) -> void:
@@ -93,7 +95,6 @@ func add_ball() -> void:
 	var d = 	preload("res://ball.tscn").instantiate(
 		).init(Vector3.ZERO, Vector3.ZERO
 		).set_material(Config.tex_array.pick_random()
-		#).set_color(dark_colors.pick_random()[0]
 		).set_radius(Config.BallRadius
 	)
 	d.position = $Arrow3D.position + Vector3(0,-Config.BallRadius*4,0)
