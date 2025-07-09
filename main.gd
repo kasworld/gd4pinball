@@ -6,12 +6,14 @@ var ball_end_count :Array = []
 
 func _ready() -> void:
 	dark_colors = NamedColorList.make_dark_color_list(0.5)
-	$Arrow3D.init(Config.BallRadius*6,Color.RED,Config.BallRadius/3,Config.BallRadius)
-	$Arrow3D.position = Vector3(Config.WorldSize.x/2 + 0.25, Config.BallRadius*5, Config.BallRadius*1)
+	$Arrow3DDrop.init(Config.BallRadius*6,Color.RED,Config.BallRadius/3,Config.BallRadius)
+	$Arrow3DDrop.position = Vector3(Config.WorldSize.x/2 + 0.25, Config.BallRadius*5, Config.BallRadius*1)
+	$Arrow3DShootLeft.init(Config.BallRadius*6,Color.RED,Config.BallRadius/3,Config.BallRadius)
+	$Arrow3DShootLeft.position = Vector3(0.5, Config.WorldSize.y/2, Config.WorldSize.z - Config.BallRadius*3)
+	
 	reset_camera_pos()
 	set_walls()
 	add_pins_bintree_narrow()
-
 
 func add_pins_bintree_full() -> void:
 	for y in int(Config.WorldSize.z):
@@ -74,7 +76,6 @@ func add_pins_bintree_narrow() -> void:
 		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z/2+3)
 		add_child(w)
 
-
 func new_label3d() -> Label3D:
 	var lb = Label3D.new()
 	lb.text = "0"
@@ -130,19 +131,29 @@ func set_pos_rot(pos :Vector3, rot:Vector3, n: Node3D) -> Node3D:
 
 func add_ball() -> void:
 	var d = 	preload("res://ball.tscn").instantiate(
-		).init(Vector3.ZERO, Vector3.ZERO
 		).set_material(Config.tex_array.pick_random()
 		).set_radius(Config.BallRadius
 	)
-	d.position = $Arrow3D.position + Vector3(0,-Config.BallRadius*4,0)
 	$DropContainer.add_child(d)
 	ball_droped += 1
 	d.ball_ended.connect(ball_ended)
+	d.position = $Arrow3DDrop.position + Vector3(0,-Config.BallRadius*4,0)
 
 func ball_ended(pos :Vector3) -> void:
 	var i = int(pos.x) 
 	ball_end_count[i] += 1
 	$BallEndCounterContainer.get_child(i).text = "%s" % ball_end_count[i]
+
+func shoot_ball() -> void:
+	var d = 	preload("res://ball.tscn").instantiate(
+		).set_material(Config.tex_array.pick_random()
+		).set_radius(Config.BallRadius
+	)
+	d.set_velocity(Vector3(0,0,-10))
+	$DropContainer.add_child(d)
+	ball_droped += 1
+	d.ball_ended.connect(ball_ended)
+	d.position = $Arrow3DDrop.position + Vector3(0,-Config.BallRadius*4,0)
 
 var camera_move = false
 func _process(delta: float) -> void:
@@ -170,12 +181,12 @@ func update_label() -> void:
 		$"왼쪽패널/충돌횟수보이기".text = "충돌횟수보이기"
 
 func _on_왼쪽이동_pressed() -> void:
-	$Arrow3D.position.x -= 0.1
-	$Arrow3D.position.x = clampf($Arrow3D.position.x, Config.BallRadius, Config.WorldSize.x-Config.BallRadius)
+	$Arrow3DDrop.position.x -= 0.1
+	$Arrow3DDrop.position.x = clampf($Arrow3DDrop.position.x, Config.BallRadius, Config.WorldSize.x-Config.BallRadius)
 
 func _on_오른쪽이동_pressed() -> void:
-	$Arrow3D.position.x += 0.1
-	$Arrow3D.position.x = clampf($Arrow3D.position.x, Config.BallRadius, Config.WorldSize.x-Config.BallRadius)
+	$Arrow3DDrop.position.x += 0.1
+	$Arrow3DDrop.position.x = clampf($Arrow3DDrop.position.x, Config.BallRadius, Config.WorldSize.x-Config.BallRadius)
 
 var key2fn = {
 	KEY_ESCAPE:_on_button_esc_pressed,

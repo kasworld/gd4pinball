@@ -3,8 +3,11 @@ class_name Ball
 
 signal ball_ended(pos :Vector3)
 
-func init(vel :Vector3, avel :Vector3) -> Ball:
+func set_velocity(vel :Vector3) -> Ball:
 	linear_velocity = vel
+	return self
+
+func set_a_velocity(avel :Vector3) -> Ball:
 	angular_velocity = avel
 	return self
 

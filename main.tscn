@@ -67,8 +67,10 @@ autostart = true
 
 [node name="BallEndCounterContainer" type="Node3D" parent="."]
 
-[node name="Arrow3D" parent="." instance=ExtResource("3_1bvp3")]
+[node name="Arrow3DDrop" parent="." instance=ExtResource("3_1bvp3")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+
+[node name="Arrow3DShootLeft" parent="." instance=ExtResource("3_1bvp3")]
 
 [connection signal="pressed" from="왼쪽패널/충돌횟수보이기" to="." method="_on_충돌횟수보이기_pressed"]
 [connection signal="value_changed" from="왼쪽패널/Label/생성속도" to="." method="_on_생성속도_value_changed"]
