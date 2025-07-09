@@ -10,9 +10,98 @@ func _ready() -> void:
 	$Arrow3D.position = Vector3(Config.WorldSize.x/2 + 0.25, Config.BallRadius*5, Config.BallRadius*1)
 	reset_camera_pos()
 	set_walls()
-	add_칸들()
-	add_pins_bintree()
-	#draw_pin_circle(Config.WorldSize/2, Config.WorldSize.length()/8, 50)
+	add_pins_bintree_narrow()
+
+
+func add_pins_bintree_full() -> void:
+	for y in int(Config.WorldSize.z):
+		var p1 :Vector3
+		var p2 :Vector3
+		if y % 2 == 0:
+			p1 = Vector3(0.75, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
+			p2 = Vector3(Config.WorldSize.x - 0.25, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
+		else :
+			p1 = Vector3(0.25, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
+			p2 = Vector3(Config.WorldSize.x - 0.75, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
+		if p1.z >= Config.WorldSize.z -3:
+			break
+		draw_pin_line(p1,p2,Config.WorldSize.x-1)
+
+	for x in Config.WorldSize.x:
+		var lb = new_label3d()
+		lb.position = Vector3(x+0.5, Config.WorldSize.y/2, Config.WorldSize.z-1) 
+		$BallEndCounterContainer.add_child(lb)
+		ball_end_count.append(0)
+
+	for x in Config.WorldSize.x+1:
+		var w = preload("res://칸막이.tscn").instantiate(
+			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, 2)
+			).set_color(dark_colors.pick_random()[0])
+		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z-1)
+		add_child(w)
+
+func add_pins_bintree_narrow() -> void:
+	for z in range(8,Config.WorldSize.z*2):
+		var p1 :Vector3
+		var p2 :Vector3
+		if z % 2 == 0:
+			p1 = Vector3(1.75, Config.WorldSize.y/2, z*sin(PI/3)) 
+			p2 = Vector3(Config.WorldSize.x - 1.25, Config.WorldSize.y/2, z*sin(PI/3)) 
+		else :
+			p1 = Vector3(1.25, Config.WorldSize.y/2, z*sin(PI/3)) 
+			p2 = Vector3(Config.WorldSize.x - 1.75, Config.WorldSize.y/2, z*sin(PI/3)) 
+		if p1.z >= Config.WorldSize.z -3:
+			break
+		draw_pin_line(p1,p2,Config.WorldSize.x-3)
+
+	for x in Config.WorldSize.x:
+		var lb = new_label3d()
+		lb.position = Vector3(x+0.5, Config.WorldSize.y/2, Config.WorldSize.z-1) 
+		$BallEndCounterContainer.add_child(lb)
+		ball_end_count.append(0)
+
+	for x in range(2,Config.WorldSize.x-1):
+		var w = preload("res://칸막이.tscn").instantiate(
+			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, 2)
+			).set_color(dark_colors.pick_random()[0])
+		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z-1)
+		add_child(w)
+
+	for x in [0, 1, Config.WorldSize.x-1, Config.WorldSize.x]:
+		var w = preload("res://칸막이.tscn").instantiate(
+			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, Config.WorldSize.z -6)
+			).set_color(dark_colors.pick_random()[0])
+		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z/2+3)
+		add_child(w)
+
+
+func new_label3d() -> Label3D:
+	var lb = Label3D.new()
+	lb.text = "0"
+	lb.pixel_size = 0.01
+	lb.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	lb.no_depth_test = true
+	return lb	
+
+func draw_pin_line(p1 :Vector3, p2 :Vector3, pin_count :int) -> void:
+	for i in pin_count:
+		var rate := float(i)/float(pin_count-1)
+		var b = preload("res://pin.tscn").instantiate(
+			).set_radius_height(Config.BallRadius/6, Config.WorldSize.y
+			).set_color(dark_colors.pick_random()[0])
+		b.position = lerp(p1,p2,rate)
+		b.set_default_pos(b.position) 
+		$PinContainer.add_child(b)
+
+func draw_pin_circle(center :Vector3, radius :float, pin_count :int) -> void:
+	for i in pin_count:
+		var rate := float(i)/float(pin_count-1) * 2 * PI
+		var b = preload("res://pin.tscn").instantiate(
+			).set_radius_height(Config.BallRadius/6, Config.WorldSize.y
+			).set_color(dark_colors.pick_random()[0])
+		b.position = Vector3( sin(rate)*radius, 0, cos(rate)*radius ) + center
+		b.set_default_pos(b.position) 
+		$PinContainer.add_child(b)
 
 func set_walls() -> void:
 	$WallContainer.add_child(set_pos_rot(Config.BottomCenter, Vector3.ZERO,
@@ -38,58 +127,6 @@ func set_pos_rot(pos :Vector3, rot:Vector3, n: Node3D) -> Node3D:
 	n.position = pos
 	n.rotation = rot
 	return n
-
-func add_칸들() -> void:		
-	for x in Config.WorldSize.x:
-		var lb = Label3D.new()
-		lb.text = "0"
-		lb.pixel_size = 0.01
-		lb.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-		lb.no_depth_test = true
-		lb.position = Vector3(x+0.5, Config.WorldSize.y/2, Config.WorldSize.z-1) 
-		$BallEndCounterContainer.add_child(lb)
-		ball_end_count.append(0)
-
-	for x in Config.WorldSize.x+1:
-		var w = preload("res://칸막이.tscn").instantiate(
-			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, 2)
-			).set_color(dark_colors.pick_random()[0])
-		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z-1)
-		add_child(w)
-
-func add_pins_bintree() -> void:
-	for y in int(Config.WorldSize.z):
-		var p1 :Vector3
-		var p2 :Vector3
-		if y % 2 == 0:
-			p1 = Vector3(0.75, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
-			p2 = Vector3(Config.WorldSize.x - 0.25, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
-		else :
-			p1 = Vector3(0.25, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
-			p2 = Vector3(Config.WorldSize.x - 0.75, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
-		if p1.z >= Config.WorldSize.z -3:
-			break
-		draw_pin_line(p1,p2,Config.WorldSize.x-1)
-
-func draw_pin_line(p1 :Vector3, p2 :Vector3, pin_count :int) -> void:
-	for i in pin_count:
-		var rate := float(i)/float(pin_count-1)
-		var b = preload("res://pin.tscn").instantiate(
-			).set_radius_height(Config.BallRadius/6, Config.WorldSize.y
-			).set_color(dark_colors.pick_random()[0])
-		b.position = lerp(p1,p2,rate)
-		b.set_default_pos(b.position) 
-		$PinContainer.add_child(b)
-
-func draw_pin_circle(center :Vector3, radius :float, pin_count :int) -> void:
-	for i in pin_count:
-		var rate := float(i)/float(pin_count-1) * 2 * PI
-		var b = preload("res://pin.tscn").instantiate(
-			).set_radius_height(Config.BallRadius/6, Config.WorldSize.y
-			).set_color(dark_colors.pick_random()[0])
-		b.position = Vector3( sin(rate)*radius, 0, cos(rate)*radius ) + center
-		b.set_default_pos(b.position) 
-		$PinContainer.add_child(b)
 
 func add_ball() -> void:
 	var d = 	preload("res://ball.tscn").instantiate(
