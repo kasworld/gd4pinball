@@ -94,6 +94,16 @@ func add_pins_bintree_narrow() -> void:
 		#w.physics_material_override.bounce = 1.0
 		add_child(w)
 
+	var rad = deg_to_rad(75)
+	var w = preload("res://반사판.tscn").instantiate().set_color(dark_colors.pick_random()[0])
+	w.rotate_y(PI-rad)
+	w.position = Vector3(cos(rad)*l/2, Config.WorldSize.y/2,2.3+ sin(rad)*l/2)
+	add_child(w)
+	w = preload("res://반사판.tscn").instantiate().set_color(dark_colors.pick_random()[0])
+	w.rotate_y(PI+rad)
+	w.position = Vector3(Config.WorldSize.x-cos(rad)*l/2, Config.WorldSize.y/2,2.3+ sin(rad)*l/2)
+	add_child(w)
+
 func new_label3d() -> Label3D:
 	var lb = Label3D.new()
 	lb.text = "0"
@@ -163,11 +173,12 @@ func ball_ended(pos :Vector3) -> void:
 	$BallEndCounterContainer.get_child(i).text = "%s" % ball_end_count[i]
 
 func shoot_ball(pos :Vector3) -> void:
+	var 발사속도 = $"왼쪽패널/발사속도".value
 	var d = 	preload("res://ball.tscn").instantiate(
 		).set_material(Config.tex_array.pick_random()
 		).set_radius(Config.BallRadius
 	)
-	d.set_velocity(Vector3(0,0,-70))
+	d.set_velocity(Vector3(0,0,-발사속도))
 	#d.set_a_velocity(Vector3(-50,0,0))
 	$DropContainer.add_child(d)
 	ball_droped += 1
@@ -193,11 +204,13 @@ func update_label() -> void:
 	RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME) * 0.001,
 	RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),
 	]
-	$"왼쪽패널/Label".text = "공 만들기 %s 초당 1개" % $"왼쪽패널/Label/생성속도".value
+	$"왼쪽패널/Label".text = "공 만들기 %s 초당 1개" % $"왼쪽패널/생성속도".value
+	$"왼쪽패널/Label2".text = "발사속도 %s m/s" % $"왼쪽패널/발사속도".value
 	if 충돌횟수보이기:
 		$"왼쪽패널/충돌횟수보이기".text = "충돌횟수숨기기"
 	else :
 		$"왼쪽패널/충돌횟수보이기".text = "충돌횟수보이기"
+
 
 func _on_왼쪽이동_pressed() -> void:
 	$Arrow3DDrop.position.x -= 0.1
