@@ -188,6 +188,9 @@ func shoot_ball(pos :Vector3) -> void:
 var camera_move = false
 func _process(delta: float) -> void:
 	update_label()
+	$Arrow3DDrop.position.x = $"왼쪽패널/화살표위치".value/100*(Config.WorldSize.x-Config.BallRadius)
+	$Arrow3DDrop.position.x = clampf($Arrow3DDrop.position.x, Config.BallRadius, Config.WorldSize.x-Config.BallRadius)
+	
 	var t = Time.get_unix_time_from_system() /-3.0
 	if camera_move:
 		$Camera3D.position = Vector3(sin(t)*Config.WorldSize.x/2, sin(t)*Config.BottomSize.length()/3, cos(t)*Config.WorldSize.z/2) + Config.WorldSize/2
@@ -210,7 +213,6 @@ func update_label() -> void:
 		$"왼쪽패널/충돌횟수보이기".text = "충돌횟수숨기기"
 	else :
 		$"왼쪽패널/충돌횟수보이기".text = "충돌횟수보이기"
-
 
 func _on_왼쪽이동_pressed() -> void:
 	$Arrow3DDrop.position.x -= 0.1
