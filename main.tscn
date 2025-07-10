@@ -78,7 +78,7 @@ value = 50.0
 [node name="PinContainer" type="Node3D" parent="."]
 
 [node name="Timer공추가" type="Timer" parent="."]
-wait_time = 0.15
+wait_time = 0.5
 autostart = true
 
 [node name="BallEndCounterContainer" type="Node3D" parent="."]
