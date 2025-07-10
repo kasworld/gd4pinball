@@ -78,23 +78,21 @@ func add_pins_bintree_narrow() -> void:
 		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z/2+3)
 		add_child(w)
 
-	var rad = -PI/6
 	var l = 4
-	var w = preload("res://칸막이.tscn").instantiate(
-		).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, l)
-		).set_color(dark_colors.pick_random()[0])
-	w.rotate_y(rad)
-	w.position = Vector3(-sin(rad)*l/2, Config.WorldSize.y/2, cos(rad)*l/2)
-	w.physics_material_override.bounce = 1.0
-	add_child(w)
-
-	w = preload("res://칸막이.tscn").instantiate(
-		).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, l)
-		).set_color(dark_colors.pick_random()[0])
-	w.rotate_y(-rad)
-	w.position = Vector3(Config.WorldSize.x+sin(rad)*l/2, Config.WorldSize.y/2, cos(rad)*l/2)
-	w.physics_material_override.bounce = 1.0
-	add_child(w)
+	for deg in [70,45,30]:
+		var rad = deg_to_rad(deg)
+		var w = preload("res://반사판.tscn").instantiate(
+			).set_color(dark_colors.pick_random()[0])
+		w.rotate_y(rad)
+		w.position = Vector3(cos(rad)*l/2, Config.WorldSize.y/2, sin(rad)*l/2)
+		#w.physics_material_override.bounce = 0.5
+		add_child(w)
+		w = preload("res://반사판.tscn").instantiate(
+			).set_color(dark_colors.pick_random()[0])
+		w.rotate_y(-rad)
+		w.position = Vector3(Config.WorldSize.x-cos(-rad)*l/2, Config.WorldSize.y/2, -sin(-rad)*l/2)
+		#w.physics_material_override.bounce = 1.0
+		add_child(w)
 
 func new_label3d() -> Label3D:
 	var lb = Label3D.new()
