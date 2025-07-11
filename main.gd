@@ -10,16 +10,16 @@ func _ready() -> void:
 	$Arrow3DDrop.set_color(Color.RED).set_size(Config.BallRadius*6,Config.BallRadius/3,Config.BallRadius)
 	$Arrow3DDrop.position = Vector3(Config.WorldSize.x/2 + 0.25, Config.BallRadius*5, Config.BallRadius*1)
 	$Arrow3DShootLeft.set_color(Color.RED).set_size(Config.BallRadius*6,Config.BallRadius/3,Config.BallRadius)
-	$Arrow3DShootLeft.position = Vector3(Config.BallRadius, Config.WorldSize.y/2, Config.WorldSize.z/2)
+	$Arrow3DShootLeft.position = Vector3(Config.BallRadius, Config.WorldSize.y/2, Config.BounceArchRadius+3)
 	$Arrow3DShootRight.set_color(Color.RED).set_size(Config.BallRadius*6,Config.BallRadius/3,Config.BallRadius)
-	$Arrow3DShootRight.position = Vector3(Config.WorldSize.x- Config.BallRadius, Config.WorldSize.y/2, Config.WorldSize.z/2)
+	$Arrow3DShootRight.position = Vector3(Config.WorldSize.x- Config.BallRadius, Config.WorldSize.y/2, Config.BounceArchRadius+3)
 	
 	reset_camera_pos()
 	set_walls()
 	add_pins_bintree_narrow()
 
 func add_pins_bintree_narrow() -> void:
-	for z in range(8,Config.WorldSize.z*2):
+	for z in range(Config.BounceArchRadius+1 ,Config.WorldSize.z*2):
 		var p1 :Vector3
 		var p2 :Vector3
 		if z % 2 == 0:
@@ -49,33 +49,33 @@ func add_pins_bintree_narrow() -> void:
 
 	for x in [0, 1, Config.WorldSize.x-1, Config.WorldSize.x]:
 		var w = preload("res://칸막이.tscn").instantiate(
-			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, Config.WorldSize.z -6)
+			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, Config.WorldSize.z -Config.BounceArchRadius)
 			).set_color(dark_colors.pick_random()[0])
-		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z/2+3)
+		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z/2+Config.BounceArchRadius/2)
 		add_child(w)
 
-	var r = 6
-	for deg in range(5,90,9):
+	for deg in range(5,90,5):
 		var rad = deg_to_rad(deg)
 		var w = preload("res://반사판.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 		w.rotate_y(rad)
-		w.position = -Vector3(sin(rad), 0, cos(rad))*r + Vector3(r,Config.WorldSize.y/2,r)
+		w.position = -Vector3(sin(rad), 0, cos(rad))*Config.BounceArchRadius + Vector3(Config.BounceArchRadius,Config.WorldSize.y/2,Config.BounceArchRadius)
 		add_child(w)
 		
 		rad = PI - rad
 		w = preload("res://반사판.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 		w.rotate_y(PI+rad)
-		w.position = Vector3(sin(rad), 0, cos(rad) )*r + Vector3(Config.WorldSize.x-r,Config.WorldSize.y/2,r)
+		w.position = Vector3(sin(rad), 0, cos(rad) )*Config.BounceArchRadius + Vector3(Config.WorldSize.x-Config.BounceArchRadius,Config.WorldSize.y/2,Config.BounceArchRadius)
 		add_child(w)
 
 	var rad = deg_to_rad(45)
+	var pos_z := Config.BounceArchRadius -1 
 	var w = preload("res://반사판.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 	w.rotate_y(PI-rad)
-	w.position = Vector3(sin(rad)*0.7, Config.WorldSize.y/2, 5+ cos(rad)*0.7)
+	w.position = Vector3(sin(rad)*0.7, Config.WorldSize.y/2, pos_z )
 	add_child(w)
 	w = preload("res://반사판.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 	w.rotate_y(PI+rad)
-	w.position = Vector3(Config.WorldSize.x-sin(rad)*0.7, Config.WorldSize.y/2, 5+ cos(rad)*0.7)
+	w.position = Vector3(Config.WorldSize.x-sin(rad)*0.7, Config.WorldSize.y/2, pos_z)
 	add_child(w)
 
 func new_label3d() -> Label3D:

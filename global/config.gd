@@ -2,7 +2,7 @@ extends Node
 
 const BallRadius := 0.3
 
-
+const BounceArchRadius := 9
 const WorldSize := Vector3(20,BallRadius*3,20)
 
 const BottomSize := Vector2(WorldSize.x, WorldSize.z)
