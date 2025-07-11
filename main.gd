@@ -48,10 +48,11 @@ func add_pins_bintree_narrow() -> void:
 		add_child(w)
 
 	for x in [0, 1, Config.WorldSize.x-1, Config.WorldSize.x]:
+		var l = Config.WorldSize.z -Config.BounceArchRadius
 		var w = preload("res://칸막이.tscn").instantiate(
-			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, Config.WorldSize.z -Config.BounceArchRadius)
+			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, l)
 			).set_color(dark_colors.pick_random()[0])
-		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z/2+Config.BounceArchRadius/2)
+		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z-l/2)
 		add_child(w)
 
 	for deg in range(5,90,5):
@@ -68,7 +69,7 @@ func add_pins_bintree_narrow() -> void:
 		add_child(w)
 
 	var rad = deg_to_rad(45)
-	var pos_z := Config.BounceArchRadius -1 
+	var pos_z := Config.BounceArchRadius -0.5 
 	var w = preload("res://반사판.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 	w.rotate_y(PI-rad)
 	w.position = Vector3(sin(rad)*0.7, Config.WorldSize.y/2, pos_z )
