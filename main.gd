@@ -72,9 +72,11 @@ func add_pins_bintree_narrow() -> void:
 		add_child(w)
 
 	var rad
-	co = get_randomcolor()
+	var co1 = get_randomcolor()
+	var co2 = get_randomcolor()
 	for deg in range(5,90,5):
 		rad = deg_to_rad(deg)
+		co = lerp(co1,co2, float(deg) / ( (90.0-5) ) )
 		w = preload("res://반사판.tscn").instantiate().set_color(co)
 		w.rotate_y(rad)
 		w.position = -Vector3(sin(rad), 0, cos(rad))*Config.BounceArchRadius + Vector3(Config.BounceArchRadius,Config.WorldSize.y/2,Config.BounceArchRadius)
