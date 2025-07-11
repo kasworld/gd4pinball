@@ -9,9 +9,9 @@ func _ready() -> void:
 	$Arrow3DDrop.set_color(Color.RED).set_size(Config.BallRadius*6,Config.BallRadius/3,Config.BallRadius)
 	$Arrow3DDrop.position = Vector3(Config.WorldSize.x/2 + 0.25, Config.BallRadius*5, Config.BallRadius*1)
 	$Arrow3DShootLeft.set_color(Color.RED).set_size(Config.BallRadius*6,Config.BallRadius/3,Config.BallRadius)
-	$Arrow3DShootLeft.position = Vector3(0.5, Config.WorldSize.y/2, Config.WorldSize.z - Config.BallRadius*3)
+	$Arrow3DShootLeft.position = Vector3(Config.BallRadius, Config.WorldSize.y/2, Config.WorldSize.z/2)
 	$Arrow3DShootRight.set_color(Color.RED).set_size(Config.BallRadius*6,Config.BallRadius/3,Config.BallRadius)
-	$Arrow3DShootRight.position = Vector3(Config.WorldSize.x- 0.5, Config.WorldSize.y/2, Config.WorldSize.z - Config.BallRadius*3)
+	$Arrow3DShootRight.position = Vector3(Config.WorldSize.x- Config.BallRadius, Config.WorldSize.y/2, Config.WorldSize.z/2)
 	
 	reset_camera_pos()
 	set_walls()
@@ -78,28 +78,28 @@ func add_pins_bintree_narrow() -> void:
 		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z/2+3)
 		add_child(w)
 
-	var r = 3
-	for deg in range(10,90,10):
+	var r = 6
+	for deg in range(5,90,9):
 		var rad = deg_to_rad(deg)
 		var w = preload("res://반사판.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 		w.rotate_y(rad)
-		w.position = -Vector3(sin(rad), 0, cos(rad))*r + Vector3(3,Config.WorldSize.y/2,3)
+		w.position = -Vector3(sin(rad), 0, cos(rad))*r + Vector3(r,Config.WorldSize.y/2,r)
 		add_child(w)
 		
 		rad = PI - rad
 		w = preload("res://반사판.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 		w.rotate_y(PI+rad)
-		w.position = Vector3(sin(rad), 0, cos(rad) )*r + Vector3(Config.WorldSize.x-3,Config.WorldSize.y/2,3)
+		w.position = Vector3(sin(rad), 0, cos(rad) )*r + Vector3(Config.WorldSize.x-r,Config.WorldSize.y/2,r)
 		add_child(w)
 
 	var rad = deg_to_rad(45)
 	var w = preload("res://반사판.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 	w.rotate_y(PI-rad)
-	w.position = Vector3(cos(rad), Config.WorldSize.y/2, 5+ sin(rad))
+	w.position = Vector3(sin(rad)*0.7, Config.WorldSize.y/2, 5+ cos(rad)*0.7)
 	add_child(w)
 	w = preload("res://반사판.tscn").instantiate().set_color(dark_colors.pick_random()[0])
 	w.rotate_y(PI+rad)
-	w.position = Vector3(Config.WorldSize.x-cos(rad), Config.WorldSize.y/2, 5+ sin(rad))
+	w.position = Vector3(Config.WorldSize.x-sin(rad)*0.7, Config.WorldSize.y/2, 5+ cos(rad)*0.7)
 	add_child(w)
 
 func new_label3d() -> Label3D:
@@ -191,7 +191,8 @@ func _process(delta: float) -> void:
 	
 	var t = Time.get_unix_time_from_system() /-3.0
 	if camera_move:
-		$Camera3D.position = Vector3(sin(t)*Config.WorldSize.x/2, sin(t)*Config.BottomSize.length()/3, cos(t)*Config.WorldSize.z/2) + Config.WorldSize/2
+		$Camera3D.position = Vector3(sin(t)*Config.WorldSize.x/2, Config.BottomSize.length()*0.4, cos(t)*Config.WorldSize.z/2) + Config.WorldSize/2
+		#$Camera3D.position = Vector3(sin(t)*Config.WorldSize.x/2, sin(t)*Config.BottomSize.length()/3, cos(t)*Config.WorldSize.z/2) + Config.WorldSize/2
 		$Camera3D.look_at(Config.BottomCenter)
 
 func update_label() -> void:
