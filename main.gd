@@ -19,15 +19,18 @@ func _ready() -> void:
 	add_pins_bintree_narrow()
 
 func add_pins_bintree_narrow() -> void:
-	for z in range(Config.BounceArchRadius+1 ,Config.WorldSize.z*2):
+	var start_pos := Vector3(0,Config.WorldSize.y/2,Config.BounceArchRadius)
+	for z in range(0,Config.WorldSize.z*2):
 		var p1 :Vector3
 		var p2 :Vector3
 		if z % 2 == 0:
-			p1 = Vector3(1.75, Config.WorldSize.y/2, z*sin(PI/3)) 
-			p2 = Vector3(Config.WorldSize.x - 1.25, Config.WorldSize.y/2, z*sin(PI/3)) 
+			p1 = Vector3(1.75, 0, z*sin(PI/3)) 
+			p2 = Vector3(Config.WorldSize.x - 1.25, 0, z*sin(PI/3)) 
 		else :
-			p1 = Vector3(1.25, Config.WorldSize.y/2, z*sin(PI/3)) 
-			p2 = Vector3(Config.WorldSize.x - 1.75, Config.WorldSize.y/2, z*sin(PI/3)) 
+			p1 = Vector3(1.25, 0, z*sin(PI/3)) 
+			p2 = Vector3(Config.WorldSize.x - 1.75, 0, z*sin(PI/3)) 
+		p1 = p1 + start_pos
+		p2 = p2 + start_pos
 		if p1.z >= Config.WorldSize.z -3:
 			break
 		draw_pin_line(p1,p2,Config.WorldSize.x-3)
