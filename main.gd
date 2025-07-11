@@ -31,9 +31,9 @@ func _ready() -> void:
 
 func add_pins_bintree_narrow() -> void:
 	var start_pos := Vector3(0,Config.WorldSize.y/2,Config.BounceArchRadius)
+	var p1 :Vector3
+	var p2 :Vector3
 	for z in range(0,Config.WorldSize.z*2):
-		var p1 :Vector3
-		var p2 :Vector3
 		if z % 2 == 0:
 			p1 = Vector3(1.75, 0, z*sin(PI/3)) 
 			p2 = Vector3(Config.WorldSize.x - 1.25, 0, z*sin(PI/3)) 
@@ -65,8 +65,8 @@ func add_pins_bintree_narrow() -> void:
 		add_child(w)
 
 	var co = get_randomcolor()
+	var l = Config.WorldSize.z -Config.BounceArchRadius
 	for x in [0, 1, Config.WorldSize.x-1, Config.WorldSize.x]:
-		var l = Config.WorldSize.z -Config.BounceArchRadius
 		w = preload("res://칸막이.tscn").instantiate().set_color(co
 			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, l) )
 		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z-l/2)
