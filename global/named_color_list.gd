@@ -27,6 +27,28 @@ func make_dark_color_list(l :float= 0.5) -> Array:
 		if i[0].get_luminance() < l:
 			rtn.append(i)
 	return rtn
+	
+func make_redlike_color_list() -> Array:
+	var rtn := []
+	for i in color_list:
+		if i[0].r > i[0].g and i[0].r > i[0].b:
+			rtn.append(i)
+	return rtn
+
+func make_bluelike_color_list() -> Array:
+	var rtn := []
+	for i in color_list:
+		if i[0].b > i[0].g and i[0].b > i[0].r:
+			rtn.append(i)
+	return rtn
+
+func make_greenlike_color_list() -> Array:
+	var rtn := []
+	for i in color_list:
+		if i[0].g > i[0].r and i[0].g > i[0].b:
+			rtn.append(i)
+	return rtn
+
 
 const color_list = [
 [Color.ALICE_BLUE, "ALICE_BLUE"],
