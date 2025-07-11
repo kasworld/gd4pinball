@@ -3,7 +3,7 @@ extends Node
 const BallRadius := 0.3
 
 
-const WorldSize := Vector3(30,BallRadius*3,20)
+const WorldSize := Vector3(20,BallRadius*3,20)
 
 const BottomSize := Vector2(WorldSize.x, WorldSize.z)
 const BottomCenter := Vector3(WorldSize.x/2, 0, WorldSize.z/2)

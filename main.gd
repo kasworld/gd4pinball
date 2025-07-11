@@ -3,6 +3,7 @@ extends Node3D
 var ball_droped :int
 var dark_colors :Array
 var ball_end_count :Array = []
+var 충돌횟수보이기 := false
 
 func _ready() -> void:
 	dark_colors = NamedColorList.make_dark_color_list(0.5)
@@ -17,33 +18,6 @@ func _ready() -> void:
 	set_walls()
 	add_pins_bintree_narrow()
 
-func add_pins_bintree_full() -> void:
-	for y in int(Config.WorldSize.z):
-		var p1 :Vector3
-		var p2 :Vector3
-		if y % 2 == 0:
-			p1 = Vector3(0.75, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
-			p2 = Vector3(Config.WorldSize.x - 0.25, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
-		else :
-			p1 = Vector3(0.25, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
-			p2 = Vector3(Config.WorldSize.x - 0.75, Config.WorldSize.y/2, 2+ y*sin(PI/3)) 
-		if p1.z >= Config.WorldSize.z -3:
-			break
-		draw_pin_line(p1,p2,Config.WorldSize.x-1)
-
-	for x in Config.WorldSize.x:
-		var lb = new_label3d()
-		lb.position = Vector3(x+0.5, Config.WorldSize.y/2, Config.WorldSize.z-1) 
-		$BallEndCounterContainer.add_child(lb)
-		ball_end_count.append(0)
-
-	for x in Config.WorldSize.x+1:
-		var w = preload("res://칸막이.tscn").instantiate(
-			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, 2)
-			).set_color(dark_colors.pick_random()[0])
-		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z-1)
-		add_child(w)
-
 func add_pins_bintree_narrow() -> void:
 	for z in range(8,Config.WorldSize.z*2):
 		var p1 :Vector3
@@ -57,6 +31,8 @@ func add_pins_bintree_narrow() -> void:
 		if p1.z >= Config.WorldSize.z -3:
 			break
 		draw_pin_line(p1,p2,Config.WorldSize.x-3)
+	for n in $PinContainer.get_children():
+		n.show_collision_count(충돌횟수보이기)
 
 	for x in Config.WorldSize.x:
 		var lb = new_label3d()
@@ -160,7 +136,7 @@ func drop_ball() -> void:
 		).set_material(Config.tex_array.pick_random()
 		).set_radius(Config.BallRadius
 	)
-	$DropContainer.add_child(d)
+	$BallContainer.add_child(d)
 	ball_droped += 1
 	d.ball_ended.connect(ball_ended)
 	d.position = $Arrow3DDrop.position + Vector3(0,-Config.BallRadius*4,0)
@@ -177,8 +153,7 @@ func shoot_ball(pos :Vector3) -> void:
 		).set_radius(Config.BallRadius
 	)
 	d.set_velocity(Vector3(0,0,-발사속도))
-	#d.set_a_velocity(Vector3(-50,0,0))
-	$DropContainer.add_child(d)
+	$BallContainer.add_child(d)
 	ball_droped += 1
 	d.ball_ended.connect(ball_ended)
 	d.position = pos + Vector3(0,0,-Config.BallRadius*4)
@@ -192,11 +167,10 @@ func _process(delta: float) -> void:
 	var t = Time.get_unix_time_from_system() /-3.0
 	if camera_move:
 		$Camera3D.position = Vector3(sin(t)*Config.WorldSize.x/2, Config.BottomSize.length()*0.4, cos(t)*Config.WorldSize.z/2) + Config.WorldSize/2
-		#$Camera3D.position = Vector3(sin(t)*Config.WorldSize.x/2, sin(t)*Config.BottomSize.length()/3, cos(t)*Config.WorldSize.z/2) + Config.WorldSize/2
 		$Camera3D.look_at(Config.BottomCenter)
 
 func update_label() -> void:
-	$"왼쪽패널/LabelDrops".text = "ball drops %s, alive %s" %[ball_droped, $DropContainer.get_child_count() ]
+	$"왼쪽패널/LabelDrops".text = "ball drops %s, alive %s" %[ball_droped, $BallContainer.get_child_count() ]
 	$"왼쪽패널/LabelPerformance".text = """%d FPS (%.2f mspf)
 %d objects
 %dK primitive indices
@@ -260,7 +234,6 @@ func _on_timer공추가_timeout() -> void:
 		2:
 			shoot_ball($Arrow3DShootRight.position)
 
-var 충돌횟수보이기 := true
 func _on_충돌횟수보이기_pressed() -> void:
 	충돌횟수보이기 = not 충돌횟수보이기
 	for n in $PinContainer.get_children():

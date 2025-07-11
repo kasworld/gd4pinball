@@ -26,7 +26,7 @@ transform = Transform3D(-0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, 0
 shadow_enabled = true
 sky_mode = 1
 
-[node name="DropContainer" type="Node3D" parent="."]
+[node name="BallContainer" type="Node3D" parent="."]
 
 [node name="왼쪽패널" type="VBoxContainer" parent="."]
 offset_right = 40.0
