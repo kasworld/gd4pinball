@@ -55,15 +55,16 @@ func add_pins_bintree_narrow() -> void:
 		ball_end_count.append(0)
 
 	var w
-	var co = get_randomcolor()
+	var co1 = get_randomcolor()
+	var co2 = get_randomcolor()
 	for x in range(2,Config.WorldSize.x-1):
-		co = get_randomcolor()
+		var co = lerp(co1,co2, float(x-2) / (Config.WorldSize.x-1-2-1) ) 
 		w = preload("res://칸막이.tscn").instantiate().set_color(co
 			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, 2) )
 		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z-1)
 		add_child(w)
 
-	co = get_randomcolor()
+	var co = get_randomcolor()
 	for x in [0, 1, Config.WorldSize.x-1, Config.WorldSize.x]:
 		var l = Config.WorldSize.z -Config.BounceArchRadius
 		w = preload("res://칸막이.tscn").instantiate().set_color(co
@@ -72,8 +73,8 @@ func add_pins_bintree_narrow() -> void:
 		add_child(w)
 
 	var rad
-	var co1 = get_randomcolor()
-	var co2 = get_randomcolor()
+	co1 = get_randomcolor()
+	co2 = get_randomcolor()
 	for deg in range(5,90,5):
 		rad = deg_to_rad(deg)
 		co = lerp(co1,co2, float(deg) / ( (90.0-5) ) )
@@ -108,10 +109,11 @@ func new_label3d() -> Label3D:
 	return lb	
 
 func draw_pin_line(p1 :Vector3, p2 :Vector3, pin_count :int) -> void:
-	var co = get_randomcolor()
+	var co1 = get_randomcolor()
+	var co2 = get_randomcolor()
 	for i in pin_count:
 		var rate := float(i)/float(pin_count-1)
-		var b = preload("res://pin.tscn").instantiate().set_color(co
+		var b = preload("res://pin.tscn").instantiate().set_color( lerp(co1,co2,rate)
 			).set_radius_height(Config.BallRadius/6, Config.WorldSize.y)
 		b.position = lerp(p1,p2,rate)
 		b.set_default_pos(b.position) 
