@@ -5,9 +5,16 @@ var dark_colors :Array
 var ball_end_count :Array = []
 var 충돌횟수보이기 := false
 
+func get_randomcolor() -> Color:
+	var co = dark_colors.pop_front()
+	dark_colors.push_back(co)
+	return co[0]
+	
 func _ready() -> void:
 	dark_colors = NamedColorList.make_dark_color_list(0.5)
-	var co = dark_colors.pick_random()[0]
+	dark_colors.shuffle()
+	
+	var co = get_randomcolor()
 	var l = Config.BallRadius*6
 	var w = Config.BallRadius/3
 	var w2 = Config.BallRadius*1
@@ -47,25 +54,28 @@ func add_pins_bintree_narrow() -> void:
 		$BallEndCounterContainer.add_child(lb)
 		ball_end_count.append(0)
 
-	var co = dark_colors.pick_random()[0]
+	var w
+	var co = get_randomcolor()
 	for x in range(2,Config.WorldSize.x-1):
-		var w = preload("res://칸막이.tscn").instantiate().set_color(co
+		co = get_randomcolor()
+		w = preload("res://칸막이.tscn").instantiate().set_color(co
 			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, 2) )
 		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z-1)
 		add_child(w)
 
-	co = dark_colors.pick_random()[0]
+	co = get_randomcolor()
 	for x in [0, 1, Config.WorldSize.x-1, Config.WorldSize.x]:
 		var l = Config.WorldSize.z -Config.BounceArchRadius
-		var w = preload("res://칸막이.tscn").instantiate().set_color(co
+		w = preload("res://칸막이.tscn").instantiate().set_color(co
 			).set_size( Vector3(Config.BallRadius/6, Config.WorldSize.y, l) )
 		w.position = Vector3(x, Config.WorldSize.y/2, Config.WorldSize.z-l/2)
 		add_child(w)
 
-	co = dark_colors.pick_random()[0]
+	var rad
+	co = get_randomcolor()
 	for deg in range(5,90,5):
-		var rad = deg_to_rad(deg)
-		var w = preload("res://반사판.tscn").instantiate().set_color(co)
+		rad = deg_to_rad(deg)
+		w = preload("res://반사판.tscn").instantiate().set_color(co)
 		w.rotate_y(rad)
 		w.position = -Vector3(sin(rad), 0, cos(rad))*Config.BounceArchRadius + Vector3(Config.BounceArchRadius,Config.WorldSize.y/2,Config.BounceArchRadius)
 		add_child(w)
@@ -75,10 +85,10 @@ func add_pins_bintree_narrow() -> void:
 		w.position = Vector3(sin(rad), 0, cos(rad) )*Config.BounceArchRadius + Vector3(Config.WorldSize.x-Config.BounceArchRadius,Config.WorldSize.y/2,Config.BounceArchRadius)
 		add_child(w)
 
-	co = dark_colors.pick_random()[0]
-	var rad = deg_to_rad(45)
+	co = get_randomcolor()
+	rad = deg_to_rad(45)
 	var pos_z := Config.BounceArchRadius -0.5 
-	var w = preload("res://반사판.tscn").instantiate().set_color(co)
+	w = preload("res://반사판.tscn").instantiate().set_color(co)
 	w.rotate_y(PI-rad)
 	w.position = Vector3(sin(rad)*0.7, Config.WorldSize.y/2, pos_z )
 	add_child(w)
@@ -96,7 +106,7 @@ func new_label3d() -> Label3D:
 	return lb	
 
 func draw_pin_line(p1 :Vector3, p2 :Vector3, pin_count :int) -> void:
-	var co = dark_colors.pick_random()[0]
+	var co = get_randomcolor()
 	for i in pin_count:
 		var rate := float(i)/float(pin_count-1)
 		var b = preload("res://pin.tscn").instantiate().set_color(co
