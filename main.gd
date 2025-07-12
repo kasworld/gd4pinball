@@ -12,6 +12,7 @@ func get_randomcolor() -> Color:
 	
 func _ready() -> void:
 	dark_colors = NamedColorList.make_dark_color_list(0.5)
+	#dark_colors = NamedColorList.make_magenta_color_list()
 	dark_colors.shuffle()
 	
 	var co = get_randomcolor()
